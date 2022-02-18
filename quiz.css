@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: rgb(42, 43, 78);
+}
+
+/* UTILITIES */
+
+.container{
+    /* width: 100vw; */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 80rem;
+    margin: 0 auto;
+} 
+
+.container > *{
+    width: 100%;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center{
+    justify-content: center;
+    align-items: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.hidden{
+    display: none;
+}
+
+.game{
+    display: none;
+}
+
+#loader{
+   border: 1.6rem solid white;
+   border-radius: 50%;
+   border-top: 1.6rem solid rgb(12, 12, 48);
+   width: 10rem;
+   height: 10rem;
+   animation: loader 2s linear infinite;
+}
+
+@keyframes loader {
+   0%{
+       transform: rotate(0deg);
+   }
+
+   100%{
+       transform: rotate(360deg);
+   }
+}
+
+#game h2{
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1.2rem;
+    color: #fff;
+    text-transform: capitalize;
+    margin-top: 80px;
+}
+
+.choice-box{
+    display: flex;
+    margin-bottom: 1rem;
+    width: 100%;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.choice-box:hover{
+    box-shadow: 0px 40px 40px 0 rgb(23, 23, 53);
+    transition: all .3s;
+}
+.choice-prefix{
+    padding:15px 25px;
+    background-color: rgb(58, 58, 58);
+    text-align: center;
+    width: 70px;
+    color: #fff;
+}
+
+.choice-text{
+    background-color: white;
+    width: 100%;
+    padding: 13px;
+}
+
+.correct{
+    background-color: green !important;
+}
+
+.incorrect{
+    background-color: red !important;
+}
+
+#hud{
+    float: left;
+    margin-left: 50px;
+    color: #fff;
+}
+
+.timer{
+    float: right;
+    margin-right: 90px;
+}
+
+.timerText{
+    text-align: center;
+    font-size: 2.2rem;
+    color: white;
+}
+
+.timerSec{
+    text-align: center;
+    color: rgb(255, 255, 255);
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+#hud-score{
+    color: #fff;
+}
+
+#score{
+    color: white;
+    font-weight: 900;
+}
+
+.hud-prefixx{
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+#progressBar{
+    width: 12rem;
+    height: 3rem;
+    border: 0.3rem solid white;
+    margin-top: 10px;
+}
+
+#progressBarFull{
+    height: 2.5rem;
+    background-color: whitesmoke;
+    width: 0;
+} 
+
+.btn{
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 15px;
+    border: 2.5px solid rgb(50, 50, 143);
+    background-color: #fff;
+    color:  rgb(42, 43, 78);
+    padding: 15px 0;
+    width: 17rem;
+    box-shadow: 0px 30px 30px 0 rgb(23, 23, 53);
+    cursor: pointer;
+}
+
+form{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+input{
+    margin-bottom: 40px;
+    width: 19rem;
+    padding: 20px;
+    border: none;
+    box-shadow: 0px 20px 20px 0px rgb(23, 23, 53);
+    background-color: white;
+    margin-top: 40px;
+    outline: none;
+}
+
+#finalScore{
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.score-view{
+    color: white;
+    font-size: 40px;
+    font-weight:bold;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+.btn[disabled]{
+    cursor: not-allowed;
+}
+
+.btn-back{
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: 2.5px solid rgb(50, 50, 143);
+    background-color: #fff;
+    color:  rgb(42, 43, 78);
+    padding: 15px 0;
+    width: 15rem;
+    box-shadow: 0px 30px 30px 0 rgb(23, 23, 53);
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+#final{
+    text-transform: uppercase;
+    font-size: 3.7rem;
+    color: white;
+    letter-spacing: 1px;
+}
+
+#highScoresList{
+    list-style: symbols();
+    color: #fff;
+    margin-top: 30px;
+    height: 100%;
+    padding-left: 0px;
+    text-align: center;
+}
+
+.high-score{
+    font-size: 2.5rem;
+}
+
+.high-score:hover{
+    transform: scale(1.050);
+}
+
+
+/* MEDIA QUERY */
+
+@media(max-width:800px){
+    h2{
+     width: 100%;
+    }
+
+    .choice-box{
+        width: 480px;
+        font-size: 30px;
+    }
+
+    #progressBarFull{
+      margin-left: -2px;
+      height: -2rem;
+    }
+}
+
+ @media(max-width:500px){
+   .title h1{
+       font-size: 53px;
+       text-align: center;
+   }
+/* 
+    .btn{
+       margin-bottom: 20px;
+       font-weight: bold;
+       text-align: center;
+   } */
+
+   #final{
+       font-size: 51px;
+       text-align: center;
+   }
+
+   #progressText{
+       /* margin-top: 50px; */
+       /* margin-left: -48px; */
+       font-size: 25px;
+       text-align: center;
+       /* margin-right: 50px; */
+   }
+
+   /* #progressBar{
+    margin-left: -45px;
+    width: 8rem;
+    height: 2rem;
+   } */
+
+   /* #progressBarFull{
+       height: 30px;
+       margin: -3px;
+   }  */
+    
+    /* #hud-item{
+        margin-right: 50px;
+        float: left;
+        
+    } */
+
+    /* .hud-prefix{
+        text-align: center;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 35px; */
+
+     /* .main-text{
+         margin-right: 15px;
+     } */
+    h2{
+       font-size: 25px !important;
+       width: 500px !important;
+       
+    }
+
+
+    .choice-box{
+        font-size: 15px;
+        font-weight: 800;
+    }
+     #game{
+         margin-right: 500px;
+     }
+}
+

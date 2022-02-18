@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+        /* Home Page */
+
+body {
+    background-color: rgb(42, 43, 78);
+}        
+
+.container{
+    height: 100vh;
+    /* width: 100vw; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.title h1{
+    font-size: 70px;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+.btn{
+    font-size: 25px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 30px;
+    border: 2.5px solid rgb(50, 50, 143);
+    background-color: #fff;
+    color:  rgb(42, 43, 78);
+    padding: 15px 0;
+    width: 20rem;
+    margin-left: 60px;
+    box-shadow: 0px 30px 30px rgb(23, 23, 53);
+    cursor: pointer;
+}
+
+        /* Quiz Page Styling */
+
+.back-btn{
+    color: rgb(42, 43, 78);
+    background-color: #fff;
+    text-decoration: none;
+    width: 100px;
+    height: 25px;
+    margin: 20px 5px;
+    border-radius: 30px;
+    text-align: center;
+    cursor: pointer;
+    position: sticky;
+    top: 0;
+}
+
+.fas{
+    color: rgb(42, 43, 78);
+    background-color:#fff ;
+}
+
+
+@media(max-width:500px){
+    .title h1{
+        font-size: 53px;
+        text-align: center;
+    }
+ 
+    .btn{
+        margin-bottom: 20px;
+        font-weight: bold;
+        margin-right: 60px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+}

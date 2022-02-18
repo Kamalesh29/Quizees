@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Set Up Ur Quizz</title>
+      <link rel="stylesheet" href="user.css">
+      <link rel="stylesheet" href="quiz.css">
+      <link rel="stylesheet" href="style.css">
+      <script src="https://kit.fontawesome.com/1767e91850.js" crossorigin="anonymous"></script>
+   </head>
+   <body>
+      <div class="container" id="select_q">
+         <h2 class="head">Set up ur quiz</h2>
+         <form id="drpform" method="post" name="form">
+            <label for="category">Category</label>
+            <select name="category" id="category">
+               <option value="10">Books</option>
+               <option value="11">Flim</option>
+               <option value="12">Music</option>
+               <option value="21">Sports</option>
+               <option value="25">Art</option>
+            </select>
+            <label for="difficulty">Difficulty</label>
+            <select name="difficulty" id="difficulty">
+               <option value="easy">Easy</option>
+               <option value="medium">Medium</option>
+               <option value="hard">Hard</option>
+            </select>
+            <button id="start" type="submit" class="submit">Continue</button>
+         </form>
+      </div>
+      <div class="container" id="quiz_q" style="display: none;">
+         <!-- <div id="loader"></div> -->
+         <div id="home" class="hidden">
+            <div class="back-btn">
+               <i class="fas fa-arrow-left"></i>
+               <a href="dropDown.html" class="back-btn">Go Back</a>
+            </div>
+            <div id="hud">
+               <div id="hud-item">
+                  <p id="progressText" class="hud-prefixx">Question</p>
+                  <!-- <h1 class="main-text" id="questionCounter">1/5</h1> -->
+                  <div id="progressBar">
+                     <div id="progressBarFull"></div>
+                  </div>
+               </div>
+            </div>
+            <div class="timer">
+               <div class="timerText">Time Left</div>
+               <div class="timerSec" id="timersec"></div>
+            </div>
+            <div id="hud-score" style="display: none;">
+               <div id="hud-item">
+                  <p class="hud-prefix">Score</p>
+                  <h1 class="main-text" id="score">0</h1>
+               </div>
+            </div>
+            <div class="container">
+               <div id="game" class="justify-center flex-column">
+                  <h2 id="question">The</h2>
+                  <div class="choice-box">
+                     <p class="choice-prefix">A</p>
+                     <p class="choice-text" data-number="1"></p>
+                  </div>
+                  <div class="choice-box">
+                     <p class="choice-prefix">B</p>
+                     <p class="choice-text" data-number="2"></p>
+                  </div>
+                  <div class="choice-box">
+                     <p class="choice-prefix">C</p>
+                     <p class="choice-text" data-number="3"></p>
+                  </div>
+                  <div class="choice-box">
+                     <p class="choice-prefix">D</p>
+                     <p class="choice-text" data-number="4"></p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="container" id="final_q" style="display: none;">
+        <div id="last" class="flex-center flex-column">
+            <p class="score-view">Final Score</p>
+            <h1 id="finalScore"></h1>
+            <form>
+                <input type="text" name="username" id="username" placeholder="Enter a User Name">
+                <button type="submit" class="btn" id="saveScoreBtn" onclick="saveHighScore(event)" disabled >Save</button>
+            </form>
+            <a href="quiz.html" class="btn">Play Again</a>
+            <a href="index.html" class="btn">Quit</a>
+        </div>
+    </div>
+      <script>
+         // Getting All required elememts //
+         const question = document.getElementById("question");
+         const choices = Array.from(document.getElementsByClassName("choice-text"));
+         const progressText = document.getElementById("progressText");
+         const scoreText = document.getElementById("score");
+         const progessBarFull = document.getElementById("progressBarFull");
+         const loader = document.getElementById("loader");
+         const home = document.getElementById("home");
+         
+         let score=0;
+         let currentQuestions={};
+         let acceptingAnswers=false;
+         let questionCounter=0;
+         let availableQuestions=[];
+         let widthValue = 0;
+         let counter;
+         let timeValue =  15;
+
+         //startTimer(15); //calling startTimer function
+         //startTimerLine(0); //calling startTimerLine function
+         // startTime=setInterval(function(){ seconds++;
+         // if(seconds>59)
+         // { minutes++;
+         // seconds=0;}
+         // },1000);
+         
+         // Questions //
+         let questions = [];
+         
+         const myForm = document.getElementById('drpform');
+         
+         myForm.addEventListener('submit', function(e){
+         e.preventDefault();
+         
+         const formData = new FormData(this);
+         
+         let cat = document.getElementById('category').selectedOptions[0].value;
+         let mm = document.getElementById('difficulty').selectedOptions[0].value;
+         debugger;
+         // GETTING QUESTIONS FROM JSON API //
+         fetch("https://opentdb.com/api.php?amount=5&category="+cat+"&difficulty="+mm+"&type=multiple")
+         .then(res =>{
+         return res.json();
+         })
+         .then(loadedQuestions =>{
+         document.getElementById('select_q').style.display = 'none';
+         document.getElementById('quiz_q').style.display = 'block';
+         console.log(loadedQuestions.results);
+         questions = loadedQuestions.results.map(loadedQuestion =>{
+         const formattedQuestion = {
+         question: loadedQuestion.question
+         };
+         const answerChoices = [...loadedQuestion.incorrect_answers];
+         formattedQuestion.answer = Math.floor(Math.random() * 5) + 1;
+         answerChoices.splice(formattedQuestion.answer -1, 0, loadedQuestion.correct_answer);
+         
+         answerChoices.forEach((choice, index) => {
+         formattedQuestion["choice" + (index + 1)] = choice;
+         });
+         
+         return formattedQuestion;
+         });
+         
+         // home.classList.remove("hidden");
+         // loader.classList.add("hidden");
+         
+         setOver();
+         startGame();
+         startTimer(15);
+         })
+         .catch(err =>{
+         console.error(err);
+         });
+         })
+         
+         
+         // Const for Start Game //
+         const CORRECT_ANSWER = 10;
+         const MAX_QUESTION = 5;
+         
+         // Start Game //
+         startGame = () => {
+         questionCounter = 0;
+         score = 0;
+         availableQuestions = [...questions];
+         // console.log(availableQuestions);
+         getNewQuestion();
+         
+         home.classList.remove("hidden");
+         loader.classList.add("hidden");
+         };
+         // Question and Choice Shown //
+         getNewQuestion = () => {
+         if(availableQuestions.length === 0 || questionCounter > MAX_QUESTION){
+         debugger;
+         localStorage.setItem("mostRecentScore", score);
+         
+         // View end page //
+         return window.location.assign("/last.html");
+         document.getElementById('select_q').style.display = 'none';
+         document.getElementById('quiz_q').style.display = 'none';
+         document.getElementById('final_q').style.display = 'block';
+         }
+         questionCounter++;
+         // ADD A QUESTIONS IN HUD //
+         progressText.innerText = `Question ${questionCounter} / ${MAX_QUESTION}`;
+         
+         // PROGRESS BAR // 
+         progessBarFull.style.width = `${(questionCounter / MAX_QUESTION) * 100}%`;
+         
+         const questionIndex =  Math.floor(Math.random() * availableQuestions.length);
+         debugger;
+         currentQuestion = availableQuestions[questionIndex];
+         question.innerText = currentQuestion.question;
+         
+         choices.forEach(choice => {
+         const number = choice.dataset["number"];
+         choice.innerText = currentQuestion["choice" + number];
+         });
+         
+         availableQuestions.splice(questionIndex,1); // question index //
+         // console.log(availableQuestions);
+         acceptingAnswers=true;
+         document.getElementById('timersec').textContent = 15;
+         };
+         
+         choices.forEach(choice => {
+         choice.addEventListener("click", e => {
+         if (!acceptingAnswers) return;
+         //clearTimeout(myVar);
+         //myTimer();
+         acceptingAnswers = false;
+         const selectedChoice = e.target;
+         const selectedAnswer = selectedChoice.dataset["number"];
+         
+         // Display Correct or Incorrect //
+         const classToApply = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+         let getAnswer = currentQuestion.answer - 1;
+         document.querySelectorAll('#game .choice-box .choice-text')[getAnswer].classList.add('correct');
+         //const classToApplyIn = selectedAnswer != currentQuestion.answer ? "incorrect" : "correct";
+         //  console.log(classToApply);
+         
+         // IF CORRECT ANSWER TO GET 10 SCORE //
+         if(classToApply === "correct"){
+         incrementScore(CORRECT_ANSWER);
+         }
+         
+         // CLASS TO APPLY ADD OR REMOVE //
+         selectedChoice.classList.add(classToApply);
+         //selectedChoice.classList.add(classToApplyIn);
+         
+         setTimeout(() => {
+         selectedChoice.classList.remove(classToApply);
+         document.querySelectorAll('#game .choice-box .choice-text')[getAnswer].classList.remove('correct');
+         getNewQuestion();
+         clearInterval(counter);
+         if(questionCounter !== questions.length){
+         startTimer(timeValue);
+         }
+         },2000);
+         });
+         });
+         
+         // ADD A SCORE FOR A QUESTION //
+         incrementScore = num =>{
+         score += num;
+         scoreText.innerText = score;
+         };
+
+         var count;
+
+function startTimer(count){
+    debugger;
+    counter = setInterval(timer, 1000);
+    function timer(){
+        document.getElementById('timersec').innerHTML=count;
+        count--;
+        if(count === 0){ 
+            clearInterval(counter);
+        }
+        if(count === 0){
+            alert("You are out of time!");
+            if(questionCounter==questions.length){
+                clearInterval(counter);
+                getNewQuestion();
+               }
+            else if(questionCounter > 5) {
+               clearInterval(counter);
+            }  
+            else{
+                nextcount++;
+                clearInterval(counter); 
+                startTimer(timeValue);
+                getNewQuestion();
+            }
+            
+        }
+            
+    }
+}
+function setOver(){
+     seconds=0
+     minutes=0
+     startTime=0
+     questionCounter=0;
+     score=0;
+     nextcount=1;    
+     timeValue=15;
+     clearInterval(counter);
+}
+
+         
+// CALLING ALL REQUIRED ELEMENTES //
+const username = document.getElementById("username");
+const saveScoreBtn = document.getElementById("saveScoreBtn");
+const finalScore = document.getElementById("finalScore");
+const mostRecentScore = localStorage.getItem("mostRecentScore");
+
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+const MAX_HIGH_SCORES = 5;
+// VIEW HIGH SCORES IN LS //
+
+finalScore.innerText = mostRecentScore;
+
+username.addEventListener("keyup",() => {
+    // console.log(username.value);
+    saveScoreBtn.disabled = !username.value;
+});
+
+// SAVE HIGH SCORES TO LS //
+saveHighScore = (e) => {
+    console.log('click to save this');
+    e.preventDefault();
+
+    const score = {
+    score: mostRecentScore,
+    name: username.value
+};
+    highScores.push(score);
+    highScores.sort((a,b) => b.score - a.score);
+    highScores.splice(5); // SPLICE OUT SCORES  SORT > TO < //
+
+// HIGH SCORES LS TO HIGHSCORES PAGE //
+    localStorage.setItem("highScores",JSON.stringify(highScores));
+    window.location.assign("index.html");
+    //console.log(highScores);
+};
+         
+      </script>
+   </body>
+</html>

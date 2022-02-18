@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Quiz Masters || Play</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/1767e91850.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+        <!-- Quiz Page -->
+    <div class="container">
+        <!-- <div id="loader"></div> -->
+    <div id="home" class="hidden">
+    <div class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <a href="index.html" class="back-btn">Go Back</a>
+    </div>
+    <div id="hud">
+        <div id="hud-item">
+            <p id="progressText" class="hud-prefixx">Question</p>
+            <!-- <h1 class="main-text" id="questionCounter">1/5</h1> -->
+            <div id="progressBar">
+                <div id="progressBarFull"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer">
+        <div class="timerText">Time Left</div>
+        <div class="timerSec"></div>
+    </div>
+
+    <div id="hud-score" style="display: none;">
+        <div id="hud-item">
+            <p class="hud-prefix">Score</p>
+            <h1 class="main-text" id="score">0</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="game" class="justify-center flex-column">
+            <h2 id="question">The</h2>
+            <div class="choice-box">
+                <p class="choice-prefix">A</p>
+                <p class="choice-text" data-number="1"></p>
+            </div>
+
+            <div class="choice-box">
+                <p class="choice-prefix">B</p>
+                <p class="choice-text" data-number="2"></p>
+            </div>
+
+            <div class="choice-box">
+                <p class="choice-prefix">C</p>
+                <p class="choice-text" data-number="3"></p>
+            </div>
+
+            <div class="choice-box">
+                <p class="choice-prefix">D</p>
+                <p class="choice-text" data-number="4"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    
+</body>
+</html>
